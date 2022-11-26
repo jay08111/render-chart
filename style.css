@@ -34,6 +34,8 @@ nav {
 }
 
 .chart_container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #000;
+  width: 90vw;
+  margin: 0 auto;
+  align-items: center;
 }
