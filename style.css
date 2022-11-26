@@ -1,0 +1,39 @@
+html {
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  padding: 15px 0;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.chart_header {
+  margin-left: 10px;
+}
+
+.chart_section_1 {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 35px;
+}
+
+.heading_underline {
+  height: 3px;
+  width: 60px;
+  background-color: #000;
+  margin: 0 auto;
+}
+
+.chart_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
