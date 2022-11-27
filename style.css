@@ -20,21 +20,26 @@ nav {
   margin-left: 10px;
 }
 
-.chart_section_1 {
+.chart_section_header {
   margin-top: 20px;
   text-align: center;
   font-size: 35px;
 }
 
+.chart_section_header h1 {
+  text-transform: capitalize;
+}
+
 .heading_underline {
   height: 3px;
-  width: 60px;
+  width: 90px;
   background-color: #000;
   margin: 0 auto;
 }
 
 .chart_container {
-  border: 1px solid #000;
+  border: 1px solid var(--border-rgb);
+  border-radius: var(--border-rad-small);
   width: 90vw;
   margin: 0 auto;
   align-items: center;
