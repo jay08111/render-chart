@@ -26,6 +26,12 @@ nav {
   font-size: 35px;
 }
 
+.chart_section_render {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .chart_section_header h1 {
   text-transform: capitalize;
 }
