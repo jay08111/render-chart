@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="chart.css" />
     <title>chart party</title>
   </head>
   <body>
@@ -80,22 +81,24 @@
           chart rendering
           <div class="heading_underline"></div>
         </h1>
-        <div class="chart_container flex-col">
-          <article>
-            <ul>
-              <li>Hello</li>
-              <li>Hello</li>
-            </ul>
-          </article>
+        <div class="flex-col gap-3">
+          <div class="chart_container flex-col">
+            <article>
+              <ul>
+                <li>Hello</li>
+                <li>Hello</li>
+              </ul>
+            </article>
+          </div>
+          <div class="chart_container flex-col">
+            <article>
+              <div id="chart"></div>
+            </article>
+          </div>
         </div>
       </section>
     </main>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"
-      integrity="sha512-MefNfAGJ/pEy89xLOFs3V6pYPs6AmUhXJrRlydI/9wZuGrqxmrdQ80zKHUcyadAcpH67teDZcBeS6oMJLPtTqw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
