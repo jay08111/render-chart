@@ -19,7 +19,7 @@ const el = d3
 
 const drawChart = async () => {
   // data
-  const dataset = await d3.json("data.json");
+  const dataset = await d3.json("test_data_1.json");
   const xAccesssor = (d) => d.currently.humidity;
   const yAccesssor = (d) => d.currently.apparentTemperature;
   // dimensions
@@ -113,3 +113,34 @@ const drawChart = async () => {
 };
 
 drawChart();
+
+const drawHeatMap = async () => {
+  const data = await d3.json("test_data_2.json");
+
+  let dimensions = {
+    width: 600,
+    height: 150,
+  };
+
+  const box = 30;
+
+  // Draw Image
+  const svg = d3
+    .select("#heatmap1")
+    .append("svg")
+    .attr("width", dimensions.width)
+    .attr("height", dimensions.height);
+
+  // Rectangles
+  svg
+    .append("g")
+    .selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("stroke", "black")
+    .attr("fill", "#ddd")
+    .attr("width", box - 3)
+    .attr("height", box - 3);
+};
+
+drawHeatMap();
