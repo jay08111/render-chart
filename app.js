@@ -149,6 +149,11 @@ const drawHeatMap = async (el, scale) => {
       .scaleQuantile()
       .domain(data)
       .range(["white", "pink", "red"]);
+  } else if (scale == "threshold") {
+    colorScale = d3
+      .scaleThreshold()
+      .domain([45200, 135600])
+      .range(["white", "pink", "red"]);
   }
   // Rectangles
   svg
@@ -168,3 +173,147 @@ const drawHeatMap = async (el, scale) => {
 drawHeatMap("#heatmap1", "linear");
 drawHeatMap("#heatmap2", "quantize");
 drawHeatMap("#heatmap3", "quantile");
+drawHeatMap("#heatmap4", "threshold");
+
+const drawChart2 = async () => {
+  const dataset = await d3.json("test_data_3.json");
+
+  const sizeAccessor = (d) => d.size;
+  const nameAccessor = (d) => d.name;
+
+  let dimensions = {
+    width: 400,
+    height: 500,
+    margin: 50,
+  };
+
+  const svg = d3
+    .select("#chart_1")
+    .append("svg")
+    .attr("width", dimensions.width)
+    .attr("height", dimensions.height);
+
+  const universeScale = d3
+    .scaleLog()
+    .domain(d3.extent(dataset, sizeAccessor))
+    .range([dimensions.height - dimensions.margin, dimensions.margin]);
+  const circlesGroup = svg
+    .append("g")
+    .style("font-size", "16px")
+    .style("dominant-baseline", "middle");
+  circlesGroup
+    .selectAll("circle")
+    .data(dataset)
+    .join("circle")
+    .attr("cx", dimensions.margin)
+    .attr("cy", (d) => universeScale(sizeAccessor(d)))
+    .attr("r", 6);
+
+  circlesGroup
+    .selectAll("text")
+    .data(dataset)
+    .join("text")
+    .attr("x", dimensions.margin + 15)
+    .attr("y", (d) => universeScale(sizeAccessor(d)))
+    .text(nameAccessor);
+
+  const axis = d3.axisLeft(universeScale);
+  svg
+    .append("g")
+    .attr("transform", `translate(${dimensions.margin} , 0)`)
+    .call(axis);
+};
+
+drawChart2();
+
+const drawChart3 = async () => {
+  const dataset = await d3.json("test_data_1.json");
+  let dimensions = {
+    width: 800,
+    height: 400,
+    margins: 50,
+    ctrHeight: 0,
+    ctrWidth: 0,
+  };
+
+  dimensions.ctrWidth = dimensions.width - dimensions.margins * 2;
+  dimensions.ctrHeight = dimensions.height - dimensions.margins * 2;
+
+  const svg = d3
+    .select("#chart_2")
+    .append("svg")
+    .attr("width", dimensions.width)
+    .attr("height", dimensions.height);
+
+  const ctr = svg
+    .append("g")
+    .attr(
+      "transform",
+      `translate(${dimensions.margins} ,${dimensions.margins})`
+    );
+
+  const labelsGroup = ctr.append("g").classed("bar-labels", true);
+  const xAxisGroup = ctr
+    .append("g")
+    .style("transform", `translateY(${dimensions.ctrHeight}px)`);
+
+  const histogram = (metric) => {
+    const xAccesssor = (d) => d.currently[metric];
+    const yAccesssor = (d) => d.length;
+
+    // Scales
+    const xScale = d3
+      .scaleLinear()
+      .domain(d3.extent(dataset, xAccesssor))
+      .range([0, dimensions.ctrWidth])
+      .nice();
+
+    const bin = d3
+      .bin()
+      .domain(xScale.domain())
+      .value(xAccesssor)
+      .thresholds(10);
+    const padding = 1;
+
+    const newDataSet = bin(dataset);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(newDataSet, yAccesssor)])
+      .range([dimensions.ctrHeight, 0])
+      .nice();
+
+    // Draw Bars
+    ctr
+      .selectAll("rect")
+      .data(newDataSet)
+      .join("rect")
+      .attr("width", (d) => d3.max([0, xScale(d.x1) - xScale(d.x0) - padding]))
+      .attr("height", (d) => dimensions.ctrHeight - yScale(yAccesssor(d)))
+      .attr("x", (d) => xScale(d.x0))
+      .attr("y", (d) => yScale(yAccesssor(d)))
+      .attr("fill", "#01c5c4");
+
+    labelsGroup
+      .selectAll("text")
+      .data(newDataSet)
+      .join("text")
+      .attr("x", (d) => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
+      .attr("y", (d) => yScale(yAccesssor(d)) - 10)
+      .text(yAccesssor);
+
+    const xAxis = d3.axisBottom(xScale);
+
+    xAxisGroup.call(xAxis);
+  };
+
+  d3.select("#metric").on("change", function (e) {
+    e.preventDefault();
+    console.log(this);
+    histogram(this.value);
+  });
+
+  histogram("humidity");
+};
+
+drawChart3();

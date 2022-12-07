@@ -82,32 +82,60 @@
           <div class="heading_underline"></div>
         </h1>
         <div class="flex-col gap-3">
-          <div class="chart_container flex-col">
+          <!-- <div class="chart_container flex-col">
             <article>
               <ul>
                 <li>Hello</li>
                 <li>Hello</li>
               </ul>
             </article>
-          </div>
+          </div> -->
           <div class="chart_container flex-col">
             <article>
+              <h1>Scaffold Chart</h1>
               <div id="chart"></div>
             </article>
           </div>
           <div class="chart_container flex-col">
             <article>
+              <h1>Linear Scale</h1>
               <div class="chart" id="heatmap1"></div>
             </article>
           </div>
           <div class="chart_container flex-col">
             <article>
+              <h1>Quantize Scale</h1>
               <div class="chart" id="heatmap2"></div>
             </article>
           </div>
           <div class="chart_container flex-col">
             <article>
+              <h1>Quantile Scale</h1>
               <div class="chart" id="heatmap3"></div>
+            </article>
+          </div>
+          <div class="chart_container flex-col">
+            <article>
+              <h1>Threshold Scale</h1>
+              <div class="chart" id="heatmap4"></div>
+            </article>
+          </div>
+          <div class="chart_container flex-col">
+            <article>
+              <div id="chart_1"></div>
+            </article>
+          </div>
+          <div class="chart_container flex-col">
+            <article>
+              <select id="metric">
+                <option value="humidity" selected>Humidity</option>
+                <option value="temperature">Temperature</option>
+                <option value="dewPoint">Dew Point</option>
+                <option value="windSpeed">Wind Speed</option>
+                <option value="cloudCover">Cloud Cover</option>
+                <option value="ozone">Ozone</option>
+              </select>
+              <div id="chart_2"></div>
             </article>
           </div>
         </div>
