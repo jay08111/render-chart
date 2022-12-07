@@ -114,9 +114,9 @@ const drawChart = async () => {
 
 drawChart();
 
-const drawHeatMap = async () => {
+const drawHeatMap = async (el, scale) => {
   const data = await d3.json("test_data_2.json");
-
+  data.sort((a, b) => a - b);
   let dimensions = {
     width: 600,
     height: 150,
@@ -126,21 +126,45 @@ const drawHeatMap = async () => {
 
   // Draw Image
   const svg = d3
-    .select("#heatmap1")
+    .select(el)
     .append("svg")
     .attr("width", dimensions.width)
     .attr("height", dimensions.height);
 
+  // Scales
+  let colorScale;
+
+  if (scale == "linear") {
+    colorScale = d3
+      .scaleLinear()
+      .domain(d3.extent(data))
+      .range(["white", "red"]);
+  } else if (scale == "quantize") {
+    colorScale = d3
+      .scaleQuantize()
+      .domain(d3.extent(data))
+      .range(["white", "pink", "red"]);
+  } else if (scale == "quantile") {
+    colorScale = d3
+      .scaleQuantile()
+      .domain(data)
+      .range(["white", "pink", "red"]);
+  }
   // Rectangles
   svg
     .append("g")
+    .attr("transform", "translate(2,2)")
     .selectAll("rect")
     .data(data)
     .join("rect")
     .attr("stroke", "black")
-    .attr("fill", "#ddd")
     .attr("width", box - 3)
-    .attr("height", box - 3);
+    .attr("height", box - 3)
+    .attr("x", (d, i) => box * (i % 20))
+    .attr("y", (d, i) => box * ((i / 20) | 0))
+    .attr("fill", colorScale);
 };
 
-drawHeatMap();
+drawHeatMap("#heatmap1", "linear");
+drawHeatMap("#heatmap2", "quantize");
+drawHeatMap("#heatmap3", "quantile");
